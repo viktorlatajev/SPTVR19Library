@@ -7,7 +7,7 @@ package sptvr19library;
 
 /**
  *
- * @author sillamae kutsekool
+ * @author user
  */
 public class SPTVR19Library {
 
