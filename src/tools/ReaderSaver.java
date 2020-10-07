@@ -5,6 +5,10 @@
  */
 package tools;
 
+<<<<<<< HEAD
+=======
+import entity.Book;
+>>>>>>> 9d87868fbefe3083b557a62470d8feff6f02f7c9
 import entity.Reader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

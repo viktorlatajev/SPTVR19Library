@@ -6,11 +6,19 @@
 package entity;
 
 import java.io.Serializable;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9d87868fbefe3083b557a62470d8feff6f02f7c9
 /**
  *
  * @author user
  */
+<<<<<<< HEAD
 public class Reader implements Serializable {
+=======
+public class Reader implements Serializable{
+>>>>>>> 9d87868fbefe3083b557a62470d8feff6f02f7c9
     private String name;
     private String lastname;
     private String phone;
