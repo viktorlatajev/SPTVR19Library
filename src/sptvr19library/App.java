@@ -9,6 +9,7 @@ package sptvr19library;
 import entity.Reader;
 import entity.Book;
 import java.util.Scanner;
+import tools.BookFactory;
 
 /**
  *
@@ -43,10 +44,18 @@ class App {
                     System.out.println("---- Добавить новую книгу ----");
                     // создадим объект книги
                     Book book;
-                    book = new Book("Voina i Mir", "L.Tolstoy", 2010);
-                    books[0] = book;
-                    Book book1 = new Book("Otsi i deti", "I.Turgenjev", 2011);
-                    books[1] = book1;
+//                    book = new Book("Voina i Mir", "L.Tolstoy", 2010);
+//                    books[0] = book;
+//                    Book book1 = new Book("Otsi i deti", "I.Turgenjev", 2011);
+//                    books[1] = book1;
+                    BookFactory bookFactory = new BookFactory();
+                    book = bookFactory.createBook();
+                    for (int i = 0; i < books.length; i++) {
+                        if(books[i] == null){
+                            books[i]=book;
+                            break;
+                        }
+                    }
                     break;
                 case "2":
                     System.out.println("--- Cписок книг ---");
