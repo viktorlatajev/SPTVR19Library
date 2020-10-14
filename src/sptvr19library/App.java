@@ -6,19 +6,19 @@
 package sptvr19library;
 
 
+import security.SecureManager;
 import entity.Reader;
 import entity.Book;
 import entity.History;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import entity.User;
 import java.util.Scanner;
-import tools.BookFactory;
-import tools.BookSaver;
-import tools.HistorySaver;
-import tools.ReaderFactory;
-import tools.ReaderSaver;
-import tools.bookManager;
-
+import tools.managers.BookManager;
+import tools.savers.BookSaver;
+import tools.managers.HistoryManager;
+import tools.savers.HistorySaver;
+import tools.managers.ReaderManager;
+import tools.savers.ReaderSaver;
+import tools.savers.UserSaver;
 
 /**
  *
@@ -28,7 +28,12 @@ class App {
     private Book[] books = new Book[100];
     private Reader[] readers = new Reader[100];
     private History[] histories = new History[100];
-
+    private User[] users = new User[100];
+    private ReaderManager readerManager = new ReaderManager();
+    private BookManager bookManager = new BookManager();
+    private HistoryManager historyManager = new HistoryManager();
+    private SecureManager secureManager = new SecureManager();
+    private User loginedUser;
     public App() {
         BookSaver bookSaver = new BookSaver();
         books = bookSaver.loadFile();
@@ -36,10 +41,13 @@ class App {
         readers = readerSaver.loadFile();
         HistorySaver historySaver = new HistorySaver();
         histories = historySaver.loadFile();
+        UserSaver userSaver = new UserSaver();
+        users = userSaver.loadFile();
     }
     
     public void run(){
         System.out.println("--- Библиотека ---");
+        this.loginedUser = secureManager.checkTask(users, readers);
         boolean repeat = true;
         do{
             System.out.println("Список задач: ");
@@ -50,7 +58,7 @@ class App {
             System.out.println("4. Список читателей");
             System.out.println("5. Выдать книгу читателю");
             System.out.println("6. Вернуть книгу в библиотеку");
-            System.out.println("7. Список читаемыз книг");
+            System.out.println("7. Список читаемых книг");
             System.out.print("Выберите задачу: ");
             Scanner scanner = new Scanner(System.in);
             String task = scanner.nextLine();
@@ -61,7 +69,7 @@ class App {
                     break;
                 case "1":
                     System.out.println("---- Добавить новую книгу ----");
-                    Book book = bookManager.createBook;
+                    Book book = bookManager.createBook();
                     bookManager.addBookToArray(book, books);
                     bookManager.printListBooks(books);
                     BookSaver bookSaver = new BookSaver();
@@ -69,120 +77,37 @@ class App {
                     break;
                 case "2":
                     System.out.println("--- Cписок книг ---");
-                    for (int i = 0; i < books.length; i++) {
-                        if(books[i]!= null){
-                            System.out.printf("%3d. Название книги: %s%nАвтор: %s%n"
-                                    ,i+1
-                                    ,books[i].getName()
-                                    ,books[i].getAuthor()
-                            );
-                            System.out.println("--------------------------------");
-                        }
-                    }
+                    bookManager.printListBooks(books);
                     break;
                 case "3":
                     System.out.println("--- Зарегистрировать нового читателя ---");
-                    ReaderFactory readerFactory = new ReaderFactory();
-                    Reader reader = readerFactory.createReader();
-                    for (int i = 0; i < readers.length; i++) {
-                        if(readers[i] == null){
-                            readers[i]=reader;
-                            break;
-                        }
-                    }
+                    Reader reader = readerManager.createReader();
+                    readerManager.addReaderToArray(reader, readers);
+                    readerManager.printListReaders(readers);
                     ReaderSaver readerSaver = new ReaderSaver();
                     readerSaver.saveReaders(readers);
                     break;
                 case "4":
                     System.out.println("--- Список читателей ---");
-                    for (int i = 0; i < readers.length; i++) {
-                        if(readers[i] != null){
-                            System.out.printf("%d. %s%n",i+1,readers[i].toString());
-                        }
-                    }
+                    readerManager.printListReaders(readers);
                     break;
                 case "5":
                     System.out.println("--- Выдать книгу ---");
-                    System.out.println("--- Cписок книг ---");
-                    for (int i = 0; i < books.length; i++) {
-                        if(books[i]!= null){
-                            System.out.printf("%3d. Название книги: %s%nАвтор: %s%n"
-                                    ,i+1
-                                    ,books[i].getName()
-                                    ,books[i].getAuthor()
-                            );
-                            System.out.println("--------------------------------");
-                        }
-                    }
-                    System.out.print("Выберите номер книги:");
-                    int bookNumber = scanner.nextInt();
-                    book = books[bookNumber - 1];
-                    System.out.println("--- Список читателей ---");
-                    for (int i = 0; i < readers.length; i++) {
-                        if(readers[i] != null){
-                            System.out.printf("%d. %s%n",i+1,readers[i].toString());
-                        }
-                    }
-                    System.out.print("Выберите номер читателя:");
-                    int readerNumber = scanner.nextInt();
-                    reader = readers[readerNumber - 1];
-                    Calendar c = new GregorianCalendar();
-                    History history = new History();
-                    history.setBook(book);
-                    history.setReader(reader);
-                    history.setTakeOnDate(c.getTime());
-                    for (int i = 0; i < histories.length; i++) {
-                        if(histories[i] == null){
-                            histories[i]=history;
-                            break;
-                        }
-                    }
+                    History history = historyManager.takeOnBookToReader(books, readers);
+                    historyManager.addBookToArray(history, histories);
+                    historyManager.printListHistories(histories);
                     HistorySaver historySaver = new HistorySaver();
                     historySaver.saveHistories(histories);
-                    System.out.println("Читателю "
-                            +history.getReader().getLastname()
-                            +" выдана книга "
-                            +history.getBook().getName()
-                    );
                     break;
                 case "6":
                     System.out.println("--- Возврат книги ---");
-                    System.out.println("--- Список читаемых книг ---");
-                    for (int i = 0; i < histories.length; i++) {
-                        if(histories[i] != null
-                               && histories[i].getReturnDate() == null){
-                            System.out.printf(
-                              "%d. Книгу \"%s\" читает %s %s%n",
-                              i+1,
-                              histories[i].getBook().getName(),
-                              histories[i].getReader().getName(),
-                              histories[i].getReader().getLastname()
-                            );
-                        }
-                        
-                    }
-                    System.out.print("Выберите номер возвращаемой книги: ");
-                    int historyNumber = scanner.nextInt();
-                    c = new GregorianCalendar();
-                    histories[historyNumber - 1].setReturnDate(c.getTime());
+                    historyManager.returnBook(histories);
                     historySaver = new HistorySaver();
                     historySaver.saveHistories(histories);
                     break;
                 case "7":
                     System.out.println("--- Список читаемых книг ---");
-                    for (int i = 0; i < histories.length; i++) {
-                        if(histories[i] != null
-                               && histories[i].getReturnDate() == null){
-                            System.out.printf(
-                              "%d. Книгу \"%s\" читает %s %s%n",
-                              i+1,
-                              histories[i].getBook().getName(),
-                              histories[i].getReader().getName(),
-                              histories[i].getReader().getLastname()
-                            );
-                        }
-                        
-                    }
+                    historyManager.printListHistories(histories);
                     break;
                 default:
                     System.out.println("Нет такой задачи.");
