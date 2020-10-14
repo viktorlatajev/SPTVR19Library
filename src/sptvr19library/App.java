@@ -17,6 +17,8 @@ import tools.BookSaver;
 import tools.HistorySaver;
 import tools.ReaderFactory;
 import tools.ReaderSaver;
+import tools.bookManager;
+
 
 /**
  *
@@ -26,21 +28,6 @@ class App {
     private Book[] books = new Book[100];
     private Reader[] readers = new Reader[100];
     private History[] histories = new History[100];
-<<<<<<< HEAD
-    
-    public App() {
-        BookSaver bookSaver = new BookSaver();
-        books = bookSaver.loadFile();
-    
-        ReaderSaver readerSaver = new ReaderSaver();
-        readers = readerSaver.loadFile();
-        
-        HistorySaver historySaver = new HistorySaver();
-        histories = historySaver.loadFile();
-        
-    }
-    
-=======
 
     public App() {
         BookSaver bookSaver = new BookSaver();
@@ -50,7 +37,6 @@ class App {
         HistorySaver historySaver = new HistorySaver();
         histories = historySaver.loadFile();
     }
->>>>>>> 9d87868fbefe3083b557a62470d8feff6f02f7c9
     
     public void run(){
         System.out.println("--- Библиотека ---");
@@ -64,11 +50,7 @@ class App {
             System.out.println("4. Список читателей");
             System.out.println("5. Выдать книгу читателю");
             System.out.println("6. Вернуть книгу в библиотеку");
-<<<<<<< HEAD
-            System.out.println("7. Список читаемых книг");
-=======
             System.out.println("7. Список читаемыз книг");
->>>>>>> 9d87868fbefe3083b557a62470d8feff6f02f7c9
             System.out.print("Выберите задачу: ");
             Scanner scanner = new Scanner(System.in);
             String task = scanner.nextLine();
@@ -79,23 +61,9 @@ class App {
                     break;
                 case "1":
                     System.out.println("---- Добавить новую книгу ----");
-<<<<<<< HEAD
-                    // создадим объект книги
-                    Book book = new Book("Voina i Mir", "L.Tolstoy", 2010);
-                    books[0] = book;
-                    Book book1 = new Book("Otsi i deti", "I.Turgenjev", 2011);
-                    books[1] = book1;
-=======
-                    Book book;
->>>>>>> 9d87868fbefe3083b557a62470d8feff6f02f7c9
-                    BookFactory bookFactory = new BookFactory();
-                    book = bookFactory.createBook();
-                    for (int i = 0; i < books.length; i++) {
-                        if(books[i] == null){
-                            books[i]=book;
-                            break;
-                        }
-                    }
+                    Book book = bookManager.createBook;
+                    bookManager.addBookToArray(book, books);
+                    bookManager.printListBooks(books);
                     BookSaver bookSaver = new BookSaver();
                     bookSaver.saveBooks(books);
                     break;
@@ -114,25 +82,8 @@ class App {
                     break;
                 case "3":
                     System.out.println("--- Зарегистрировать нового читателя ---");
-<<<<<<< HEAD
-                    Reader reader = new Reader("Martin", "Tamm", "56565656");
-                    Reader reader1 = new Reader("Nikolay", "Petrov", "54455445");
-                    readers[0]=reader;
-                    readers[1]=reader1;
-                    System.out.printf("Новый пользователь: %s %s%n", 
-                                reader.getName(),
-                                reader.getLastname()
-                           );
-                    System.out.printf("Новый пользователь: %s %s%n", 
-                                reader1.getName(),
-                                reader1.getLastname()
-                           );
-                    ReaderFactory readerFactory = new ReaderFactory();
-                    reader = readerFactory.createReader();
-=======
                     ReaderFactory readerFactory = new ReaderFactory();
                     Reader reader = readerFactory.createReader();
->>>>>>> 9d87868fbefe3083b557a62470d8feff6f02f7c9
                     for (int i = 0; i < readers.length; i++) {
                         if(readers[i] == null){
                             readers[i]=reader;
@@ -161,16 +112,9 @@ class App {
                                     ,books[i].getAuthor()
                             );
                             System.out.println("--------------------------------");
-<<<<<<< HEAD
-                            
-                        }
-                    }
-                    System.out.print("Выберите номер книги: ");
-=======
                         }
                     }
                     System.out.print("Выберите номер книги:");
->>>>>>> 9d87868fbefe3083b557a62470d8feff6f02f7c9
                     int bookNumber = scanner.nextInt();
                     book = books[bookNumber - 1];
                     System.out.println("--- Список читателей ---");
