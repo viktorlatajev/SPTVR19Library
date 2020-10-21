@@ -50,7 +50,7 @@ public class UserManager {
         for (int i = 0; i < users.length; i++) {
             User user = users[i];
             if(login.equals(user.getLogin())){
-                for (int j = 0; j < 3; j++) {
+                for (int j = 0; j < 2; j++) {
                     if(password.equals(user.getPassword())){
                         return user;
                     }else{
