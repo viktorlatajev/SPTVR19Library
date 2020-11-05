@@ -45,7 +45,12 @@ public class SecureManager {
                        UserSaver userSaver = new UserSaver();
                        userSaver.saveUsers(users);
                    }else if(numTask == 2){
-                       return userManager.getAuthUser(users);
+                       User authUser = userManager.getAuthUser(users);
+                       if(authUser != null){
+                           return authUser;
+                       }else{
+                           System.out.println("Нет такого пользователя. Зарегистрируйтесь.");
+                       }
                    }
                 }
                

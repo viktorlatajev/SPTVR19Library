@@ -49,8 +49,9 @@ public class UserManager {
         String password = scanner.nextLine();
         for (int i = 0; i < users.length; i++) {
             User user = users[i];
+            if(user == null) continue;
             if(login.equals(user.getLogin())){
-                for (int j = 0; j < 3; j++) {
+                for (int j = 0; j < 2; j++) {
                     if(password.equals(user.getPassword())){
                         return user;
                     }else{
@@ -62,6 +63,7 @@ public class UserManager {
                 System.out.println("Вы не авторизовались. До свидания.");
                 System.exit(0);
             }
+            
         }
         
         return null;
