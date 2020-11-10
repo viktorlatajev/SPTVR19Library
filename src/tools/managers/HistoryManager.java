@@ -10,6 +10,7 @@ import entity.History;
 import entity.Reader;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -21,7 +22,7 @@ public class HistoryManager {
     private ReaderManager readerManager = new ReaderManager();
     private Scanner scanner = new Scanner(System.in);
     
-    public History takeOnBookToReader(Book[] books, Reader[] readers){
+    public History takeOnBookToReader(List<Book> books, List<Reader> readers){
         System.out.println("--- Cписок книг ---");
         bookManager.printListBooks(books);
         System.out.print("Выберите номер книги:");
@@ -39,22 +40,17 @@ public class HistoryManager {
         history.setTakeOnDate(c.getTime());
         return history;
     }
-    public void addBookToArray(History history, History[] histories){
-        for (int i = 0; i < histories.length; i++) {
-            if(histories[i] == null){
-                histories[i]=history;
-                break;
-            }
-        }
+    public void addBookToArray(History history, List<History> histories){
+        histories.add(history);
     }
-    public void printListHistories(History[] histories) {
-        for (int i = 0; i < histories.length; i++) {
-            if(histories[i]!= null && histories[i].getReturnDate() == null){
+    public void printListHistories(List<History> histories) {
+        for (int i = 0; i < histories.size(); i++) {
+            if(histories.get(i)!= null && histories.get(i).getReturnDate() == null){
                 System.out.printf("%3d. Книгу \"%s\" читает %s %s%n"
                         ,i+1
-                        ,histories[i].getBook().getName()
-                        ,histories[i].getReader().getName()
-                        ,histories[i].getReader().getLastname()
+                        ,histories.get(i).getBook().getName()
+                        ,histories.get(i).getReader().getName()
+                        ,histories.get(i).getReader().getLastname()
                 );
                 System.out.println("--------------------------------");
             }

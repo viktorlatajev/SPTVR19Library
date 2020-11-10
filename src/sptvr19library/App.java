@@ -11,6 +11,8 @@ import entity.Reader;
 import entity.Book;
 import entity.History;
 import entity.User;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import tools.managers.BookManager;
 import tools.severs.BookSaver;
@@ -25,10 +27,15 @@ import tools.severs.UserSaver;
  * @author sillamae kutsekool
  */
 class App {
-    private Book[] books = new Book[100];
-    private Reader[] readers = new Reader[100];
-    private History[] histories = new History[100];
-    private User[] users = new User[100];
+    
+    private List<Book> listBooks = new ArrayList<>();
+    
+    private List<Reader> listReaders = new ArrayList<>();
+    
+    private List<History> listHistories = new ArrayList<>();
+    
+    private List<User> listUsers = new ArrayList<>();
+    
     private ReaderManager readerManager = new ReaderManager();
     private BookManager bookManager = new BookManager();
     private HistoryManager historyManager = new HistoryManager();
@@ -58,7 +65,7 @@ class App {
             System.out.println("4. Список читателей");
             System.out.println("5. Выдать книгу читателю");
             System.out.println("6. Вернуть книгу в библиотеку");
-            System.out.println("7. Список читаемыз книг");
+            System.out.println("7. Список читаемых книг");
             System.out.print("Выберите задачу: ");
             Scanner scanner = new Scanner(System.in);
             String task = scanner.nextLine();

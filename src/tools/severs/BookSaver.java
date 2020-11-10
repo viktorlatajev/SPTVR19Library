@@ -12,6 +12,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -54,13 +56,13 @@ public class BookSaver {
 //        }
     }
 
-    public Book[] loadFile() {
+    public List<Book> loadFile() {
         try {
-            return (Book[]) em.createQuery("SELECT book FROM Book book")
-                    .getResultList().toArray();
+            return em.createQuery("SELECT book FROM Book book")
+                    .getResultList();
         } catch (Exception e) {
             System.out.println("Нет записей");
-            return new Book[100];
+            return new ArrayList();
         }
 //        FileInputStream fis = null;
 //        ObjectInputStream ois = null;
