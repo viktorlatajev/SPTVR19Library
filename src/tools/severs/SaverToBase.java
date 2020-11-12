@@ -6,6 +6,7 @@
 package tools.severs;
 
 import entity.Book;
+import entity.EntityInterface;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -23,21 +24,21 @@ import javax.persistence.Persistence;
  *
  * @author user
  */
-public class BookSaver {
+public class SaverToBase<T> {
     private final String fileName = "books";
 
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SPTVR19LibraryPU");
     private EntityManager em = emf.createEntityManager();
     private EntityTransaction tx = em.getTransaction();
    
-    public void saveBooks(List<Book> books) {
+    public void save(List<EntityInterface> entityList) {
         tx.begin();
-            for (int i = 0; i < books.size(); i++) {
-                if(books.get(i) != null && books.get(i).getId()==null){
-                    em.persist(books.get(i));
+            for (int i = 0; i < entityList.size(); i++) {
+                if(entityList.get(i) != null && entityList.get(i).getId()==null){
+                    em.persist(entityList.get(i));
                     break;
                 }else{
-                    em.merge(books.get(i));
+                    em.merge(entityList.get(i));
                 }
             }
         tx.commit();
@@ -56,13 +57,13 @@ public class BookSaver {
 //        }
     }
 
-    public List<Book> loadFile() {
+    public List<EntityInterface> load(String entityName) {
         try {
-            return em.createQuery("SELECT book FROM Book book")
+            return em.createQuery("SELECT e FROM "+entityName+" e")
                     .getResultList();
         } catch (Exception e) {
             System.out.println("Нет записей");
-            return new ArrayList();
+            return new ArrayList<EntityInterface>();
         }
 //        FileInputStream fis = null;
 //        ObjectInputStream ois = null;

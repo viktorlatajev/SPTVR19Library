@@ -30,14 +30,14 @@ public class HistorySaver {
     private EntityManager em = emf.createEntityManager();
     private EntityTransaction tx = em.getTransaction();
 
-    public void saveHistories(History[] histories) {
+    public void saveHistories(List<History> histories) {
         tx.begin();
-            for (int i = 0; i < histories.length; i++) {
-                if(histories[i] != null && histories[i].getId()==null){
-                    em.persist(histories[i]);
+            for (int i = 0; i < histories.size(); i++) {
+                if(histories.get(i) != null && histories.get(i).getId()==null){
+                    em.persist(histories.get(i));
                     break;
                 }else{
-                    em.merge(histories[i]);
+                    em.merge(histories.get(i));
                 }
             }
         tx.commit();

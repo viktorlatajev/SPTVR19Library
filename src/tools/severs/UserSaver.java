@@ -30,14 +30,14 @@ public class UserSaver {
     private EntityManager em = emf.createEntityManager();
     private EntityTransaction tx = em.getTransaction();
 
-    public void saveUsers(User[] users) {
+    public void saveUsers(List<User> users) {
         tx.begin();
-            for (int i = 0; i < users.length; i++) {
-                if(users[i] != null && users[i].getId()==null){
-                    em.persist(users[i]);
+            for (int i = 0; i < users.size(); i++) {
+                if(users.get(i) != null && users.get(i).getId()==null){
+                    em.persist(users.get(i));
                     break;
                 }else{
-                    em.merge(users[i]);
+                    em.merge(users.get(i));
                 }
             }
         tx.commit();

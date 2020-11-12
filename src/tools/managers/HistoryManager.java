@@ -27,12 +27,12 @@ public class HistoryManager {
         bookManager.printListBooks(books);
         System.out.print("Выберите номер книги:");
         int bookNumber = scanner.nextInt();
-        Book book = books[bookNumber - 1];
+        Book book = books.get(bookNumber - 1);
         System.out.println("--- Список читателей ---");
         readerManager.printListReaders(readers);
         System.out.print("Выберите номер читателя:");
         int readerNumber = scanner.nextInt();
-        Reader reader = readers[readerNumber - 1];
+        Reader reader = readers.get(readerNumber - 1);
         Calendar c = new GregorianCalendar();
         History history = new History();
         history.setBook(book);
@@ -57,14 +57,14 @@ public class HistoryManager {
         }
     }
     
-    public void returnBook(History[] histories){
+    public void returnBook(List<History> histories){
         System.out.println("--- Список читаемых книг ---");
         this.printListHistories(histories);
         System.out.print("Выберите номер возвращаемой книги: ");
         int historyNumber = scanner.nextInt();
         Calendar c = new GregorianCalendar();
-        histories[historyNumber - 1].setReturnDate(c.getTime());
-        System.out.println("Книга "+histories[historyNumber - 1].getBook().getName()+" возвращена.");
+        histories.get(historyNumber - 1).setReturnDate(c.getTime());
+        System.out.println("Книга "+histories.get(historyNumber - 1).getBook().getName()+" возвращена.");
     }
     
 }

@@ -33,14 +33,14 @@ public class ReaderSaver {
     private EntityManager em = emf.createEntityManager();
     private EntityTransaction tx = em.getTransaction();
 
-    public void saveReaders(Reader[] readers) {
+    public void saveReaders(List<Reader> readers) {
         tx.begin();
-            for (int i = 0; i < readers.length; i++) {
-                if(readers[i] != null && readers[i].getId()==null){
-                    em.persist(readers[i]);
+            for (int i = 0; i < readers.size(); i++) {
+                if(readers.get(i) != null && readers.get(i).getId()==null){
+                    em.persist(readers.get(i));
                     break;
                 }else{
-                    em.merge(readers[i]);
+                    em.merge(readers.get(i));
                 }
             }
         tx.commit();
